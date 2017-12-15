@@ -1,12 +1,16 @@
 #! /usr/bin/env python3
 from flask import Flask, request
 from flask_restful import Resource, Api
+from flask_jwt import JWT, jwt_required
+
+from security import authenticate, identity
 
 
 app = Flask(__name__)
 app.secret_key = "MyVerySecretAPKey"
 api = Api(app)
 
+jwt = JWT(app, authenticate, identity)  # /auth
 
 reparacoes = [{'id': 1234, 'nome': 'josé manuel da silva pancrácio'}]
 
@@ -17,6 +21,7 @@ class Repairs(Resource):
 
 
 class Repair(Resource):
+    @jwt_required()
     def get(self, num_rep=None):
         if num_rep is None:
             return {'repair': None}, 404
@@ -75,4 +80,4 @@ api.add_resource(Contact, '/contact/<string:nome>')
 api.add_resource(Root, '/')
 
 
-app.run(port=5000, threaded=True, debug=True)
+app.run(port=5000, threaded=False, debug=True)

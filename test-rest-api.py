@@ -80,4 +80,4 @@ api.add_resource(Contact, '/contact/<string:nome>')
 api.add_resource(Root, '/')
 
 
-app.run(port=5000, threaded=False, debug=True)
+app.run(port=5000, threaded=False)

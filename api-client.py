@@ -3,7 +3,7 @@
 import requests
 
 def get_repairs():
-    api_URL = 'http://127.0.0.2:5000'
+    api_URL = 'http://localhost:5000'
     try:
         params = {}
 
@@ -14,4 +14,5 @@ def get_repairs():
         print(e)
 
 
-get_repairs()
+repairs = get_repairs()
+print(repairs)

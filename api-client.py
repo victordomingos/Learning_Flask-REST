@@ -16,12 +16,17 @@ def get_repairs():
         print(e)
 
 
-def get_repair(num_rep):
-    api_URL = 'http://localhost:5000/repairs/'+str(num_rep)
+def get_repair(num_rep, jwtoken):
+    api_URL = 'http://localhost:5000/repair/'+str(num_rep)
+    token = "JWT " + jwtoken
     try:
         params = {}
-
-        repair = requests.get(api_URL, params=params, timeout=(2, 5)).json()
+        headers = {'Authorization': token}
+        repair = requests.get(api_URL,
+                              params=params,
+                              headers=headers, 
+                              timeout=(2, 5)
+                             ).json()
         return repair
 
     except Exception as e:
@@ -48,10 +53,13 @@ def post_authentication(username, password):
 
 
 print("Repairs: ", get_repairs())
-print("---")
-print("Repair number 1234:", get_repair(1234))
+#print("---")
+#print("Repair number 1234:", get_repair(1234))
 print("---")
 my_new_jwt = post_authentication("victor", "1234")
 print("JWT: ", my_new_jwt)
-
+print("---")
+print("Repair number 1234:", get_repair(1234, my_new_jwt))
+print("---")
+ 
 print("---")
